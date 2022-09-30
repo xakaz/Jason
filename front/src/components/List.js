@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios'
-import Cross from '../assets/cross.svg'
+import Cross from '../assets/remove.png'
+import Up from '../assets/arrow-bar-up.svg'
+import Down from '../assets/arrow-bar-down.svg'
 
 export default function List() {
 
+    // Variables & fonctions de mise à jour du state
     const [argo, setArgo] = useState("")
     const [validation, setValidation] = useState("")
     const [argonauts, setArgonauts] = useState([])
+    const [toggle, setToggle] = useState(true)
+
+
 
     // Récupérer les argonautes
     useEffect(() => {
@@ -22,8 +28,8 @@ export default function List() {
     }, [])
 
     //Supprimer un(e) argonaute
-    const handleRemove = ($id) => {
-        axios.post('http://localhost/test/back/DeleteArgonaut.php', { id: $id })
+    const handleRemove = async ($id) => {
+        await axios.post('http://localhost/test/back/DeleteArgonaut.php', { id: $id })
             .catch(error => {
                 console.log(error)
             })
@@ -31,21 +37,23 @@ export default function List() {
     }
 
     // Ajouter un(e) argonaute
-    const handleForm = e => {
+    const handleForm = async (e) => {
+        e.preventDefault()
         if (argo !== "") {
-            axios.post('http://localhost/test/back/SetArgonaut.php', { name: argo })
+            await axios.post('http://localhost/test/back/SetArgonaut.php', { name: argo })
                 .catch(error => {
                     console.log(error)
                 })
+            window.location.reload()
         } else {
             setValidation("Entrez un nom !!!")
         }
     }
 
     return (
-        <div>
+        <>
             {/** TITRE */}
-            <h1 className='text-center text-light fw-bold mx-1 py-2'>Jason & Les Argonautes</h1>
+            <h1 className='text-center text-light fw-bold mt-3 py-2'>Jason & Les Argonautes</h1>
 
             {/** FORMULAIRE */}
             <form className='text-center mx-auto my-2 p-3' onSubmit={e => handleForm(e)}>
@@ -60,15 +68,22 @@ export default function List() {
                     />
                     <button className='btn btn-dark text-light' type='submit'>Ajouter</button>
                 </div>
-                <p className='text-danger'>{validation}</p>
+            
+                <p className='text-warning p-1 fw-bold'>{validation}</p>
             </form>
 
-            {/** LISTE */}
+            {/** TITRE LISTE */}
             <h2 className='text-center text-light'>- Membres de l'équipage -</h2>
+
             <p className='text-center text-light'>Il reste {50 - argonauts.length} membres à ajouter</p>
 
-            
-            <div className='row d-flex list'>
+            {/** TOGGLE BUTTON */}
+            <div className='text-center'>
+                <img className="bg-light rounded-circle p-2 btn shadow" src={toggle ? Up : Down} onClick={() => setToggle(!toggle)} />
+            </div>
+
+            {/** LISTE */}
+            <div className={toggle ? 'd-flex row list' : 'd-none row list'}>
                 {
                     argonauts && argonauts.map(argonaut => {
                         return (
@@ -89,8 +104,7 @@ export default function List() {
                         )
                     })
                 }
-
             </div>
-        </div>
+        </>
     )
 }
