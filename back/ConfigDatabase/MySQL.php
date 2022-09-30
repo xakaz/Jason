@@ -2,12 +2,8 @@
 
 function getBdd()
 {
-  $user = 'root';
-  $pass = 'root';
-  $db = 'mysql:host=localhost;dbname=jason';
-
   try {
-    $pdo = new PDO($db, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $pdo = new PDO("mysql:host=localhost;dbname=jason;charset=utf8", "root", "root", [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
     return $pdo;
   } catch (Exception $e) {
 

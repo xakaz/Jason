@@ -7,14 +7,36 @@
 }
 
 body {
-    background: url(./assets/papier.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: 'Gloria Hallelujah', cursive;
+    /* font-family: Quicksand; */
+    font-family: 'Rajdhani', sans-serif;
     letter-spacing: 2px;
+    background: rgb(132, 160, 252);
 }
 
-h1 {
-    font-family: 'Gloria Hallelujah', cursive;
-    text-decoration: underline;
+.list{
+    background: linear-gradient(rgb(101, 135, 247), transparent );
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    margin: 20px;
+}
+
+@media screen and (max-width: 400px)
+{
+    form{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width : 1200px)
+{
+    form{
+        width: 75%;
+    }
+}
+
+@media screen and (min-width: 1200px)
+{
+    form{
+        width: 50%;
+    }
 }

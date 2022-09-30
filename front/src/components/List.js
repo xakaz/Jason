@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios'
-import Cross from '../assets/remove.png'
+import Cross from '../assets/cross.svg'
 
 export default function List() {
 
@@ -45,11 +45,11 @@ export default function List() {
     return (
         <div>
             {/** TITRE */}
-            <h1 className='text-center my-5 py-2'>Jason & Les Argonautes</h1>
+            <h1 className='text-center text-light fw-bold mx-1 py-2'>Jason & Les Argonautes</h1>
 
             {/** FORMULAIRE */}
-            <form className='text-center w-50 mx-auto my-5' onSubmit={e => handleForm(e)}>
-                <label htmlFor="basic-url" className="form-label">Ajouter un(e) argonaute</label>
+            <form className='text-center mx-auto my-2 p-3' onSubmit={e => handleForm(e)}>
+                <label htmlFor="basic-url" className="form-label text-light fw-bold">Ajouter un(e) argonaute</label>
                 <div className="input-group mb-3">
                     <input
                         type="text"
@@ -64,25 +64,24 @@ export default function List() {
             </form>
 
             {/** LISTE */}
-            <h2 className='text-center'>- Membres de l'équipage -</h2>
-            <p className='text-center'>Il reste {50 - argonauts.length} membres à ajouter</p>
-            <hr />
-            <div className='row d-flex'>
+            <h2 className='text-center text-light'>- Membres de l'équipage -</h2>
+            <p className='text-center text-light'>Il reste {50 - argonauts.length} membres à ajouter</p>
+
+            
+            <div className='row d-flex list'>
                 {
                     argonauts && argonauts.map(argonaut => {
                         return (
                             <>
-                                <div className='col-4 text-center py-2 rounded my-2' key={uuidv4()}>
+                                <div className='col-12 col-md-4 g-5 mt-1 text-center rounded' key={uuidv4()}>
                                     <div className='row' >
-                                        <div className='col-6 d-flex justify-content-end align-items-center fw-bold' >
-                                            {argonaut.name.toUpperCase()}
-                                        </div>
-                                        <div className='col-6 d-flex justify-content-start align-items-center' >
-                                            <span
-                                                className='btn'
-                                                onClick={() => handleRemove(argonaut.id)}>
-                                                <img src={Cross} />
-                                            </span>
+                                        <div className=' d-flex justify-content-between align-items-center fw-bold bg-dark text-light p-1 rounded-3'  >
+                                            <div className='col-8'>
+                                                {argonaut.name.toUpperCase()}
+                                            </div>
+                                            <div className='col-4' >
+                                                <img src={Cross} className='btn' onClick={() => handleRemove(argonaut.id)} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
