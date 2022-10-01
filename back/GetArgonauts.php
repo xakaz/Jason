@@ -16,7 +16,11 @@ function getArgonauts()
     $stmt->execute();
     $argonauts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
-    return sendJSON($argonauts);
+    if ($argonauts) {
+        return sendJSON($argonauts);
+    } else {
+        echo "Impossible de récupérer les argonautes";
+    }
 }
 
 getArgonauts();

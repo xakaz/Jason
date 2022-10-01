@@ -1,6 +1,7 @@
 <?php
 require_once './ConfigDatabase/MySQL.php';
 
+
 function deleteArgonaut()
 {
     try {

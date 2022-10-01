@@ -1,4 +1,5 @@
 <?php
+require_once './credentials.php';
 
 function getBdd()
 {
