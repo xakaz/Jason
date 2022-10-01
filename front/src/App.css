@@ -7,36 +7,89 @@
 }
 
 body {
-    /* font-family: Quicksand; */
     font-family: 'Rajdhani', sans-serif;
     letter-spacing: 2px;
-    background: rgb(132, 160, 252);
+    background: linear-gradient(rgb(101, 135, 252), rgb(176, 189, 233));
+    height: 100vh;
 }
 
-.list{
-    background: linear-gradient(rgb(101, 135, 247), transparent );
+button {
+    letter-spacing: 2px;
+}
+
+.list {
+
+    background: linear-gradient(rgb(101, 135, 247), transparent);
     border-radius: 20px 20px 0 0;
     padding: 20px;
     margin: 20px;
 }
 
-@media screen and (max-width: 400px)
-{
-    form{
+.bateau2 {
+    transform: rotateY(180deg);
+}
+
+.reste-btn :hover {
+    box-shadow: 0 0 10px white;
+}
+
+@media screen and (max-width: 400px) {
+    form {
         width: 100%;
     }
 }
 
-@media screen and (min-width: 400px) and (max-width : 1200px)
-{
-    form{
+@media screen and (min-width: 400px) and (max-width : 1200px) {
+    form {
         width: 75%;
     }
 }
 
-@media screen and (min-width: 1200px)
-{
-    form{
+@media screen and (min-width: 1200px) {
+    form {
         width: 50%;
     }
+}
+
+.title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.title :nth-child(1) {
+    text-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+    letter-spacing: 4px;
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.title :nth-child(2) {
+    position: absolute;
+    letter-spacing: 4px;
+    color: rgb(44, 44, 44);
+}
+
+.title :nth-child(3) {
+    position: absolute;
+    top: 2px;
+    letter-spacing: 4px;
+}
+
+.bateau1 :nth-child(2) {
+    position: relative;
+    transform: rotateX(180deg);
+    top: 80px;
+    left: -90px;
+    opacity: 0.15;
+    filter: blur(2px);
+}
+
+.bateau2 :nth-child(2) {
+    position: relative;
+    transform: rotateX(180deg);
+    top: 80px;
+    left: -90px;
+    opacity: 0.15;
+    filter: blur(2px);
 }
