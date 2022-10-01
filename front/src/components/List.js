@@ -13,14 +13,12 @@ export default function List() {
     const [validation, setValidation] = useState("")
     const [argonauts, setArgonauts] = useState([])
     const [toggle, setToggle] = useState(true)
-    const [congrat, setCongrat] = useState("")
 
 
     // Récupérer les argonautes
     useEffect(() => {
-        axios.get('http://localhost/test/back/GetArgonauts.php')
+        axios.get(process.env.REACT_APP_AXIOS_URL + 'GetArgonauts.php')
             .then(response => {
-                console.log(response.data)
                 setArgonauts(response.data)
             })
             .catch(error => {
@@ -30,9 +28,9 @@ export default function List() {
 
     //Supprimer un(e) argonaute
     const handleRemove = async ($id) => {
-        await axios.post('http://localhost/test/back/DeleteArgonaut.php', { id: $id })
+        await axios.post(process.env.REACT_APP_AXIOS_URL + 'DeleteArgonaut.php', { id: $id })
             .catch(error => {
-                console.log(error)
+                console.error(error)
             })
         window.location.reload();
     }
@@ -41,9 +39,9 @@ export default function List() {
     const handleForm = async (e) => {
         e.preventDefault()
         if (argo !== "") {
-            await axios.post('http://localhost/test/back/SetArgonaut.php', { name: argo })
+            await axios.post(process.env.REACT_APP_AXIOS_URL + 'SetArgonaut.php', { name: argo })
                 .catch(error => {
-                    console.log(error)
+                    console.error(error)
                 })
             window.location.reload()
         } else {
