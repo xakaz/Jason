@@ -5,6 +5,7 @@ import Cross from '../assets/remove.png'
 import Up from '../assets/arrow-bar-up.svg'
 import Down from '../assets/arrow-bar-down.svg'
 import Boat from '../assets/bateau.png'
+import Goat from '../assets/goat.png'
 
 export default function List() {
 
@@ -40,20 +41,20 @@ export default function List() {
         argonauts.forEach(argonaut => {
             if (argonaut.name.toUpperCase() === argo.toLocaleUpperCase()) {
                 setAlreadyExists(true)
-            } 
+            }
         });
-    } 
+    }
 
     // Ajouter un(e) argonaute
     const handleForm = (e) => {
         e.preventDefault()
-              
-        if (argo !== "") {            
-            if(!alreadyExists){
+
+        if (argo !== "") {
+            if (!alreadyExists) {
                 axios.post(process.env.REACT_APP_AXIOS_URL + 'SetArgonaut.php', { name: argo })
-                .catch(error => {
-                    console.error(error)
-                })
+                    .catch(error => {
+                        console.error(error)
+                    })
                 window.location.reload()
             } else {
                 setValidation("Ce membre fait déjà parti de l'équipage !")
@@ -65,12 +66,10 @@ export default function List() {
     }
 
     return (
-        <>
-
-
+        <div className='container'>
             <div className='row'>
                 {/** BATEAU GAUCHE */}
-                <div className='d-none d-md-flex col-3 d-flex align-items-center bateau1'>
+                <div className='d-none d-md-flex col-3 align-items-center bateau1'>
                     <img src={Boat} style={{ width: '90px' }} />
                     <img src={Boat} style={{ width: '90px' }} />
                 </div>
@@ -85,46 +84,54 @@ export default function List() {
                             value={argo}
                             onChange={e => setArgo(e.target.value.toUpperCase())}
                         />
-                        <button className='btn btn-secondary text-light fw-bold' type='submit' onClick={handleSubmit}>Engager</button>
+                        <button className='text-light fw-bold' type='submit' onClick={handleSubmit}>Engager</button>
                     </div>
 
-                    <p className='text-warning p-1 fw-bold'>{validation}</p>
+                    <div className='validation'>
+                        <p className='text-warning p-1 fw-bold'>{validation}</p>
+                    </div>
                 </form>
                 {/** BATEAU DROITE */}
-                <div className='d-none d-md-flex col-3 d-flex align-items-center justify-content-start bateau2'>
+                <div className='d-none d-md-flex col-3 align-items-center justify-content-start bateau2'>
                     <img src={Boat} style={{ width: '90px' }} />
                     <img src={Boat} style={{ width: '90px' }} />
                 </div>
             </div>
 
-            {/** TITRE LISTE */}
-            <h2 className='text-center text-light fw-bold'>
-                Membres de l'équipage
-            </h2>
-
-            <div className='d-flex justify-content-center mb-2 reste-btn'>
-                {
-                    argonauts && argonauts.length < 50 ?
-                        <p className=' text-light fw-bold bg-primary p-3 rounded-3'>Il reste {50 - argonauts.length} membres à ajouter</p>
-                        :
-                        <p className=' text-light fw-bold bg-success p-3 rounded-3'>Félicitations ! Vous avez réunis 50 argonautes pour former l'équipage !</p>
-
-                }
-            </div>
-
             {/** BOUTON DE REPLIS/DEPLIS */}
-            <div className='text-center'>
-                <img className="bg-light rounded-circle p-2 btn shadow-sm" src={toggle ? Up : Down} onClick={() => setToggle(!toggle)} />
+            <div className='text-center mb-3 d-flex justify-content-center'>
+                <h2 className='text-center text-light fw-bold'>
+                    Membres de l'équipage
+                </h2>
+                <div className='mx-3'>
+                    <img className="bg-light rounded-circle p-2 btn shadow-sm" src={toggle ? Up : Down} onClick={() => setToggle(!toggle)} />
+                </div>
             </div>
 
             {/** LISTE */}
+            <div className='d-flex justify-content-center'>
+                {
+                    argonauts && argonauts.length < 50 ?
+                        <div className='d-flex flex-column justify-content-center align-items-center '>
+                            <div className={!toggle ? 'text-light fw-bold bg-primary p-2 rounded-3 mt-2 display-info' : 'd-none'}>Il reste {50 - argonauts.length} membres à ajouter</div>
+                            <img src={Goat} style={{ width: "300px" }} className={!toggle ? "my-5 goat" : "d-none"} />
+                            <p className={!toggle ? 'fw-bold goat' : 'd-none'}>- A la conquête de la toison d'or -</p>
+                        </div>
+                        :
+                        <div className='d-flex flex-column justify-content-center align-items-center '>
+                            <div className={!toggle ? 'text-light fw-bold bg-success p-2 rounded-3 mt-2 display-info' : 'd-none'}>Félicitations ! Vous avez réunis {argonauts.length} argonautes pour former l'équipage !</div>
+                            <img src={Goat} style={{ width: "300px" }} className={!toggle ? "my-5 goat" : "d-none"} />
+                            <p className={!toggle ? 'fw-bold goat' : 'd-none'}>- A la conquête de la toison d'or -</p>
+                        </div>
+                }
+            </div>
             <div className={toggle ? 'd-flex row list' : 'd-none row list'}>
                 {
                     argonauts && argonauts.map(argonaut => {
                         return (
                             <div className='col-12 col-md-4 g-5 mt-1 text-center rounded' key={uuidv4()}>
                                 <div className='row' >
-                                    <div className=' d-flex justify-content-between align-items-center bg-dark fw-bold text-light p-1 rounded-3'>
+                                    <div className=' d-flex justify-content-between align-items-center element fw-bold text-light p-1 rounded-3'>
                                         <div className='col-8'>
                                             {argonaut.name.toUpperCase()}
                                         </div>
@@ -150,6 +157,6 @@ export default function List() {
                     </div>
                 }
             </div>
-        </>
+        </div>
     )
 }
