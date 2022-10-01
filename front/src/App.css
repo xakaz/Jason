@@ -58,19 +58,11 @@ button {
 }
 
 .title :nth-child(1) {
-    text-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
-    letter-spacing: 4px;
-    font-size: 40px;
-    color: rgba(0, 0, 0, 0.2);
-}
-
-.title :nth-child(2) {
-    position: absolute;
     letter-spacing: 4px;
     color: rgb(44, 44, 44);
 }
 
-.title :nth-child(3) {
+.title :nth-child(2) {
     position: absolute;
     top: 2px;
     letter-spacing: 4px;

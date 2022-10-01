@@ -13,7 +13,7 @@ export default function List() {
     const [validation, setValidation] = useState("")
     const [argonauts, setArgonauts] = useState([])
     const [toggle, setToggle] = useState(true)
-
+    const [alreadyExists, setAlreadyExists] = useState(false)
 
     // Récupérer les argonautes
     useEffect(() => {
@@ -35,29 +35,38 @@ export default function List() {
         window.location.reload();
     }
 
+    // Vérifie l'existence d'un argonaute
+    const handleSubmit = () => {
+        argonauts.forEach(argonaut => {
+            if (argonaut.name.toUpperCase() === argo.toLocaleUpperCase()) {
+                setAlreadyExists(true)
+            } 
+        });
+    } 
+
     // Ajouter un(e) argonaute
-    const handleForm = async (e) => {
+    const handleForm = (e) => {
         e.preventDefault()
-        if (argo !== "") {
-            await axios.post(process.env.REACT_APP_AXIOS_URL + 'SetArgonaut.php', { name: argo })
+              
+        if (argo !== "") {            
+            if(!alreadyExists){
+                axios.post(process.env.REACT_APP_AXIOS_URL + 'SetArgonaut.php', { name: argo })
                 .catch(error => {
                     console.error(error)
                 })
-            window.location.reload()
+                window.location.reload()
+            } else {
+                setValidation("Ce membre fait déjà parti de l'équipage !")
+                setAlreadyExists(false)
+            }
         } else {
             setValidation("Entrez un nom !!!")
         }
     }
 
-
     return (
         <>
-            {/** TITRE */}
-            <div className='title'>
-                <h1 className='text-center fw-bold mt-3 py-2'>Jason & Les Argonautes</h1>
-                <h1 className='text-center mt-3 py-2'>Jason & Les Argonautes</h1>
-                <h1 className='text-center text-light mt-3 py-2'>Jason & Les Argonautes</h1>
-            </div>
+
 
             <div className='row'>
                 {/** BATEAU GAUCHE */}
@@ -74,9 +83,9 @@ export default function List() {
                             className="form-control"
                             placeholder='Entrez un nom...'
                             value={argo}
-                            onChange={e => setArgo(e.target.value)}
+                            onChange={e => setArgo(e.target.value.toUpperCase())}
                         />
-                        <button className='btn btn-secondary text-light fw-bold' type='submit'>Engager</button>
+                        <button className='btn btn-secondary text-light fw-bold' type='submit' onClick={handleSubmit}>Engager</button>
                     </div>
 
                     <p className='text-warning p-1 fw-bold'>{validation}</p>
@@ -110,26 +119,35 @@ export default function List() {
 
             {/** LISTE */}
             <div className={toggle ? 'd-flex row list' : 'd-none row list'}>
-
                 {
                     argonauts && argonauts.map(argonaut => {
                         return (
-                            <>
-                                <div className='col-12 col-md-4 g-5 mt-1 text-center rounded' key={uuidv4()}>
-                                    <div className='row' >
-                                        <div className=' d-flex justify-content-between align-items-center bg-dark fw-bold text-light p-1 rounded-3'>
-                                            <div className='col-8'>
-                                                {argonaut.name.toUpperCase()}
-                                            </div>
-                                            <div className='col-4' >
-                                                <img src={Cross} className='btn' onClick={() => handleRemove(argonaut.id)} />
-                                            </div>
+                            <div className='col-12 col-md-4 g-5 mt-1 text-center rounded' key={uuidv4()}>
+                                <div className='row' >
+                                    <div className=' d-flex justify-content-between align-items-center bg-dark fw-bold text-light p-1 rounded-3'>
+                                        <div className='col-8'>
+                                            {argonaut.name.toUpperCase()}
+                                        </div>
+                                        <div className='col-4' >
+                                            <img src={Cross} className='btn' onClick={() => handleRemove(argonaut.id)} />
                                         </div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         )
                     })
+                }
+                {
+                    argonauts && argonauts.length > 50 &&
+                    <div className='col-12 col-md-4 g-5 mt-1 text-center rounded'>
+                        <div className='row' >
+                            <div className=' d-flex justify-content-between align-items-center bg-success fw-bold text-light p-1 rounded-3' style={{ height: "45px" }}>
+                                <div className='col-12' >
+                                    LOIC HERNANDEZ : CHANCEUX
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
         </>
